@@ -1,6 +1,7 @@
 <?php $widget = (is_superadmin_loggedin() ? "col-md-6" : "col-md-offset-3 col-md-6"); ?>
 <div class="row">
 	<div class="col-md-12">
+        <?php if(!is_teacher_loggedin()): ?>
 		<section class="panel">
 			<header class="panel-heading">
 				<h4 class="panel-title"><?=translate('select_ground')?></h4>
@@ -39,7 +40,7 @@
 			</footer>
 			<?php echo form_close();?>
 		</section>
-
+        <?php endif;?>
 		<?php if (isset($students)):?>
 		<section class="panel appear-animation" data-appear-animation="<?=$global_config['animations'] ?>" data-appear-animation-delay="100">
 			<header class="panel-heading">

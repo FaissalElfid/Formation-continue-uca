@@ -1,13 +1,13 @@
 (function($) {
 	'use strict';
-    
+
     $("form.frm-submit").each(function(i, el)
     {
         var $this = $(el);
         $this.on('submit', function(e){
             e.preventDefault();
             var btn = $this.find('[type="submit"]');
-            
+
             $.ajax({
                 url: $(this).attr('action'),
                 type: "POST",
@@ -76,7 +76,7 @@
                     }
                 },
                 complete: function (data) {
-                    btn.button('reset'); 
+                    btn.button('reset');
                 },
                 error: function () {
                     btn.button('reset');
@@ -142,7 +142,7 @@
         }
         mfp_modal('#authentication_modal');
     });
-    
+
     $('#showPassword').on('click', function(){
         var password = $(this).parents('.form-group').find("[name='password']");
         if(password.prop('type') == 'password'){
@@ -151,7 +151,7 @@
             password.prop('type', 'password');
         }
     });
-    
+
     $('#cb_authentication').on('click', function(){
         var password = $(this).parents('.form-group').find("[name='password']");
         if (this.checked) {
@@ -372,35 +372,6 @@ function getSubjectByClass(id) {
     });
 }
 
-
-function getDesignationByBranch(id) {
-    $.ajax({
-        url: base_url + 'ajax/getDataByBranch',
-        type: 'POST',
-        data: {
-            table: "staff_designation",
-            branch_id: id
-        },
-        success: function (response) {
-            $('#designation_id').html(response);
-        }
-    });
-}
-
-function getDepartmentByBranch(id) {
-    $.ajax({
-        url: base_url + 'ajax/getDataByBranch',
-        type: 'POST',
-        data: {
-            table: "staff_department",
-            branch_id: id
-        },
-        success: function (response) {
-            $('#department_id').html(response);
-        }
-    });
-}
-
 function selAtten_all(val) {
     if (val == "") {
         $('input[type="radio"]').prop('checked', false);
@@ -520,7 +491,7 @@ function fn_printElem(elem, html = false)
     if (html == false) {
         var oContent = document.getElementById(elem).innerHTML;
     } else {
-       var oContent = elem; 
+       var oContent = elem;
     }
     var frame1 = document.createElement('iframe');
     frame1.name = "frame1";

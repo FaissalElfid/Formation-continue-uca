@@ -3,17 +3,17 @@
 		<ul class="nav nav-tabs">
 			<li <?=(empty($this->session->flashdata('active')) ? 'class="active"' : '');?>>
 				<a href="#setting" data-toggle="tab">
-					<i class="fas fa-chalkboard-teacher"></i> 
+					<i class="fas fa-chalkboard-teacher"></i>
 				   <span class="hidden-xs"> <?=translate('general_settings')?></span>
 				</a>
-			
+
 			</li>
 			<li <?=($this->session->flashdata('active') == 2 ? 'class="active"' : '');?>>
 				<a href="#theme" data-toggle="tab">
 				   <i class="fas fa-paint-roller"></i>
 				   <span class="hidden-xs"> <?=translate('theme_settings')?></span>
 				</a>
-			
+
 			</li>
 			<li <?=($this->session->flashdata('active') == 3 ? 'class="active"' : '');?>>
 				<a href="#upload" data-toggle="tab">
@@ -164,7 +164,7 @@
 						<input type="text" class="form-control" name="facebook_url" value="<?=set_value('facebook_url', $global_config['facebook_url'])?>" />
 					</div>
 				</div>
-				
+
 				<div class="form-group">
 					<label class="col-md-3 control-label">Twitter URL</label>
 					<div class="col-md-6">
@@ -177,7 +177,7 @@
 						<input type="text" class="form-control" name="linkedin_url" value="<?=set_value('linkedin_url', $global_config['linkedin_url'])?>" />
 					</div>
 				</div>
-				
+
 				<div class="form-group">
 					<label class="col-md-3 control-label">Youtube URL</label>
 					<div class="col-md-6 mb-md">
@@ -210,7 +210,7 @@
 						<ul class="list-unstyled thememenu-sy">
 							<li>
 								<div class="theme-box">
-									<label> 
+									<label>
 										<input name="dark_skin" value="false" type="radio" <?=($theme_config['dark_skin'] == 'false' ? 'checked' : '');?>>
 										<div class="theme-img">
 											<img src="<?=base_url('assets/images/theme/light.png')?>">
@@ -237,7 +237,7 @@
 						<ul class="list-unstyled thememenu-sy">
 							<li>
 								<div class="theme-box">
-									<label> 
+									<label>
 										<input name="border_mode" value="true" type="radio" <?=($theme_config['border_mode'] == 'true' ? 'checked' : '')?> >
 										<div class="theme-img">
 											<img src="<?=base_url('assets/images/theme/rounded.png')?>">
@@ -348,7 +348,7 @@
 						</div>
 					</div>
 				</div>
-				
+
 				<footer class="panel-footer">
 					<div class="row">
 						<div class="col-md-2 col-sm-offset-10">

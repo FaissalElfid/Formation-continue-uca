@@ -7,12 +7,6 @@
 		color: #ddd;
 	}
 </style>
-<?php if (is_superadmin_loggedin() ): ?>
-	<?php $this->load->view('frontend/branch_select'); ?>
-<?php endif; 
-if (!empty($branch_id)) {
-	?>
-
 <section class="panel">
 	<div class="tabs-custom">
 		<ul class="nav nav-tabs">
@@ -49,7 +43,7 @@ if (!empty($branch_id)) {
 									$edit_branch_id = '';
 									if ($row['system']) {
 										if (is_superadmin_loggedin()) {
-											$edit_branch_id = "/" . $branch_id; 
+											$edit_branch_id = "/" . $branch_id;
 										}
 										if ($row['invisible'] == 0) {
 											$publish = 'checked';
@@ -85,14 +79,14 @@ if (!empty($branch_id)) {
 							</td>
 							<td class="min-w-xs">
 							<?php if (get_permission('frontend_menu', 'is_edit')) { ?>
-								<a href="<?php echo base_url('frontend/menu/edit/' . $row['id'] . $edit_branch_id); ?>" class="btn btn-default btn-circle icon" data-toggle="tooltip" data-original-title="<?php echo translate('edit'); ?>"> 
+								<a href="<?php echo base_url('frontend/menu/edit/' . $row['id'] . $edit_branch_id); ?>" class="btn btn-default btn-circle icon" data-toggle="tooltip" data-original-title="<?php echo translate('edit'); ?>">
 									<i class="fas fa-pen-nib"></i>
 								</a>
 							<?php } ?>
 							<?php
 								if ($row['system'] == 0) {
 									if (get_permission('frontend_menu', 'is_delete')) {
-										echo btn_delete('frontend/menu/delete/' . $row['id']); 
+										echo btn_delete('frontend/menu/delete/' . $row['id']);
 									}
 								}
 							?>
@@ -104,7 +98,7 @@ if (!empty($branch_id)) {
 							$edit_branch_id = '';
 							if ($value['system']) {
 								if (is_superadmin_loggedin()) {
-									$edit_branch_id = "/" . $branch_id; 
+									$edit_branch_id = "/" . $branch_id;
 								}
 								if ($value['invisible'] == 0) {
 									$publish = 'checked';
@@ -129,14 +123,14 @@ if (!empty($branch_id)) {
 							</td>
 							<td class="min-w-xs">
 							<?php if (get_permission('frontend_menu', 'is_edit')) { ?>
-								<a href="<?php echo base_url('frontend/menu/edit/' . $value['id'] . $edit_branch_id); ?>" class="btn btn-default btn-circle icon" data-toggle="tooltip" data-original-title="<?php echo translate('edit'); ?>"> 
+								<a href="<?php echo base_url('frontend/menu/edit/' . $value['id'] . $edit_branch_id); ?>" class="btn btn-default btn-circle icon" data-toggle="tooltip" data-original-title="<?php echo translate('edit'); ?>">
 									<i class="fas fa-pen-nib"></i>
 								</a>
 							<?php } ?>
 							<?php
 								if ($value['system'] == 0) {
 									if (get_permission('frontend_menu', 'is_delete')) {
-										echo btn_delete('frontend/menu/delete/' . $value['id']); 
+										echo btn_delete('frontend/menu/delete/' . $value['id']);
 									}
 								}
 							?>
@@ -232,7 +226,7 @@ if (!empty($branch_id)) {
 									<i class="fas fa-plus-circle"></i> <?php echo translate('save'); ?>
 								</button>
 							</div>
-						</div>	
+						</div>
 					</footer>
 				<?php echo form_close(); ?>
 			</div>
@@ -244,7 +238,6 @@ if (!empty($branch_id)) {
 <script type="text/javascript">
 	var menu_branchID = "<?=$branch_id?>"
 </script>
-<?php } ?>
 
 
 

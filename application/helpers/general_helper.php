@@ -159,6 +159,12 @@ function is_student_loggedin()
     }
     return false;
 }
+//get logged in section
+function get_loggedin_section(){
+    $CI = &get_instance();
+    return $CI->session->userdata('loggedin_section');
+//    return $CI;
+}
 
 // get logged in user id - login credential DB id
 function get_loggedin_id()
@@ -173,7 +179,6 @@ function get_loggedin_user_id()
     $ci = &get_instance();
     return $ci->session->userdata('loggedin_userid');
 }
-
 // get session loggedin
 function is_loggedin()
 {

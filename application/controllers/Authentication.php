@@ -4,11 +4,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /**
  * @package : Ramom school management system
  * @version : 4.0
- * @developed by : RamomCoder
- * @support : ramomcoder@yahoo.com
- * @author url : http://codecanyon.net/user/RamomCoder
+ * @developed by : Faissal EL FID
+ * @support : faissal.elfid@gmail.com
+ * @copyright : Reserved for an IRISI Student
  * @filename : Authentication.php
- * @copyright : Reserved RamomCoder Team
+
  */
 
 class Authentication extends Authentication_Controller
@@ -23,7 +23,7 @@ class Authentication extends Authentication_Controller
     public function index($url_alias = '')
     {
         if (is_loggedin()) {
-            redirect(base_url('dashboard'));
+            redirect(base_url('dashboard/index'));
         }
 
         if ($_POST) {
@@ -61,6 +61,7 @@ class Authentication extends Authentication_Controller
                             'name' => $getUser['name'],
                             'logger_photo' => $getUser['photo'],
                             'loggedin_branch' => $getUser['branch_id'],
+                            'loggedin_section' => $getUser['department'],
                             'loggedin_id' => $login_credential->id,
                             'loggedin_userid' => $login_credential->user_id,
                             'loggedin_role_id' => $login_credential->role,
@@ -75,7 +76,7 @@ class Authentication extends Authentication_Controller
                         if ($this->session->has_userdata('redirect_url')) {
                             redirect($this->session->userdata('redirect_url'));
                         } else {
-                            redirect(base_url('dashboard'));
+                            redirect(base_url('dashboard/index'));
                         }
 
                     } else {

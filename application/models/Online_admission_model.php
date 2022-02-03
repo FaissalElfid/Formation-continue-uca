@@ -119,7 +119,7 @@ class Online_admission_model extends MY_Model
             'user_role' => 6,
             'email' => $data['grd_email'],
         );
-        $this->email_model->sentStaffRegisteredAccount($emailData);
+//        $this->email_model->sentStaffRegisteredAccount($emailData);
         return $studentData;
     }
 

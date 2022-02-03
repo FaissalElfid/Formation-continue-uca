@@ -19,6 +19,7 @@
 <div class="container px-md-0 main-container">
     <h3 class="main-heading2 mt-0"><?php echo $page_data['title']; ?></h3>
     <?php echo $page_data['description']; ?>
+    </p><p style="text-align: center; "><b style="">Année universitaire : <?php echo $session['school_year']; ?></b><br>
     <div class="box2 form-box">
         <div class="tabs-panel tabs-product">
             <div class="nav nav-tabs">
@@ -26,6 +27,7 @@
             </div>
             <div class="card-body">
                 <?php echo $page_data['terms_conditions_description'] ?>
+                <?php echo $session['school_year'];?>
             </div>
             <div class="tab-content clearfix">
                 <div class="tab-pane fade show active" id="new-patient" role="tabpanel" aria-labelledby="tab-new-patient">
@@ -42,7 +44,7 @@
                                     <label class="control-label"><?=translate('class')?> <span class="required">*</span></label>
                                     <?php
                                         $arrayClass = $this->app_lib->getClass($branchID);
-                                        echo form_dropdown("class_id", $arrayClass, set_value('class_id'), "class='form-control' data-plugin-selectTwo onchange='getSectionByClass(this.value)'");
+                                        echo form_dropdown("class_id", $arrayClass, set_value('class_id'), "name ='class_id' class='form-control' data-plugin-selectTwo onchange='getSectionByClass(this.value)'");
                                     ?>
                                     <span class="error"></span>
                                 </div>
@@ -52,7 +54,7 @@
                                     <label class="control-label"><?=translate('section')?></label>
                                     <?php
                                         $arraySection = $this->app_lib->getSections(set_value('class_id'), false);
-                                        echo form_dropdown("section_id", $arraySection, set_value('section_id'), "class='form-control' data-plugin-selectTwo id='section_id' ");
+                                        echo form_dropdown("section_id", $arraySection, set_value('section_id'), "name='section_id' class='form-control' data-plugin-selectTwo id='section_id' ");
                                     ?>
                                     <span class="error"></span>
                                 </div>
@@ -82,7 +84,7 @@
                                             'male' => translate('male'),
                                             'female' => translate('female')
                                         );
-                                        echo form_dropdown("gender", $arrayGender, set_value('gender'), "class='form-control' data-plugin-selectTwo ");
+                                        echo form_dropdown("gender", $arrayGender, set_value('gender'), "name='gender' class='form-control' data-plugin-selectTwo ");
                                     ?>
                                     <span class="error"></span>
                                 </div>
@@ -124,12 +126,6 @@
                         <div class="row" id="customFields">
                             <?php echo render_custom_Fields('online_admission', $branchID); ?>
                         </div>
-                        <?php if ($cms_setting['captcha_status'] == 'enable'): ?>
-                        <div class="form-group">
-                            <?php echo $recaptcha['widget']; echo $recaptcha['script']; ?>
-                            <span class="error"></span>
-                        </div>
-                        <?php endif; ?>
                         <button type="submit" class="btn btn-1" data-loading-text="<i class='fas fa-spinner fa-spin'></i> Processing"><i class="fas fa-plus-circle"></i> <?=translate('submit')?></button>
                     <?php echo form_close(); ?>
                 </div>

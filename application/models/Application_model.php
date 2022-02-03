@@ -39,18 +39,10 @@ class Application_model extends CI_Model
         }
     }
 
-    public function getUserNameByRoleID($roleID, $userID = '')
+    public function getUserNameByRoleID($roleID, $userID= '')
     {
-        if ($roleID == 6) {
-            $sql = "SELECT name,email,photo,branch_id FROM parent WHERE id = " . $this->db->escape($userID);
-            return $this->db->query($sql)->row_array();
-        } elseif ($roleID == 7) {
-            $sql = "SELECT student.id, CONCAT(student.first_name,' ',student.last_name) as name, student.email, student.photo, enroll.branch_id FROM student INNER JOIN enroll ON enroll.student_id = student.id WHERE student.id = " . $this->db->escape($userID);
-            return $this->db->query($sql)->row_array();
-        } else {
-            $sql = "SELECT name,email,photo,branch_id FROM staff WHERE id = " . $this->db->escape($userID);
-            return $this->db->query($sql)->row_array();
-        }
+        $sql = "SELECT name,email,photo,branch_id,department FROM staff WHERE id = " . $this->db->escape($userID);
+        return $this->db->query($sql)->row_array();
     }
 
     public function getStudentListByClassSection($classID = '', $sectionID = '', $branchID = '', $deactivate = false, $rollOrder = false)
@@ -68,19 +60,6 @@ class Application_model extends CI_Model
             $sql .= " ORDER BY s.id ASC";
         }
         return $this->db->query($sql)->result_array();
-    }
-
-    public function getStudentDetails($id)
-    {
-        $this->db->select('s.*,e.class_id,e.section_id,e.id as enrollid,e.roll,e.branch_id,e.session_id,c.name as class_name,se.name as section_name,sc.name as category_name');
-        $this->db->from('enroll as e');
-        $this->db->join('student as s', 'e.student_id = s.id', 'left');
-        $this->db->join('class as c', 'e.class_id = c.id', 'left');
-        $this->db->join('section as se', 'e.section_id = se.id', 'left');
-        $this->db->join('student_category as sc', 's.category_id=sc.id', 'left');
-        $this->db->where('s.id', $id);
-        $query = $this->db->get();
-        return $query->row_array();
     }
 
     public function getLangImage($id = '', $thumb = true)

@@ -16,11 +16,6 @@ class Setting extends Admin_Controller
         if (!get_permission('frontend_setting', 'is_view')) {
             access_denied();
         }
-        $branchID = $this->frontend_model->getBranchID();
-        if ($_POST) {
-            $branch_id = $this->input->post('branch_id');
-            redirect(base_url('frontend/setting?branch_id=' . $branch_id));
-        }
         $this->data['headerelements'] = array(
             'css' => array(
                 'vendor/dropify/css/dropify.min.css',
@@ -29,8 +24,7 @@ class Setting extends Admin_Controller
                 'vendor/dropify/js/dropify.min.js',
             ),
         );
-        $this->data['branch_id'] = $branchID;
-        $this->data['setting'] = $this->frontend_model->get('front_cms_setting', array('branch_id' => $branchID), true);
+        $this->data['setting'] = $this->frontend_model->get('front_cms_setting', array('branch_id' => 1), true);
         $this->data['title'] = translate('frontend');
         $this->data['sub_page'] = 'frontend/setting';
         $this->data['main_menu'] = 'frontend';

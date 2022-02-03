@@ -16,11 +16,10 @@
 			</div>
 			<div class="col-md-12 col-lg-5 col-xl-5">
 				<h5><?php echo $staff['name']; ?></h5>
-				<p><?php echo ucfirst($staff['role'])?> / <?php echo html_escape($staff['designation_name']); ?></p>
+				<p><?php echo ucfirst($staff['role'])?> </p>
 				<ul>
-					<li><div class="icon-holder" data-toggle="tooltip" data-original-title="<?=translate('department')?>"><i class="fas fa-user-tie"></i></div> <?=(!empty($staff['department_name']) ? $staff['department_name'] : 'N/A'); ?></li>
-					<li><div class="icon-holder" data-toggle="tooltip" data-original-title="<?=translate('birthday')?>"><i class="fas fa-birthday-cake"></i></div> <?=_d($staff['birthday'])?></li>
-					<li><div class="icon-holder" data-toggle="tooltip" data-original-title="<?=translate('joining_date')?>"><i class="far fa-calendar-alt"></i></div> <?=_d($staff['joining_date'])?></li>
+					<li><div class="icon-holder" data-toggle="tooltip" data-original-title="<?=translate('department')?>"><i class="fas fa-user-tie"></i></div> <?=(!empty($staff['section_name']) ? $staff['section_name'] : 'N/A'); ?></li>
+					<li><div class="icon-holder" data-toggle="tooltip" data-original-title="<?=translate('birthday')?>"><i class="fas fa-birthday-cake"></i></div><?=(!empty($staff['birthday']) ? $staff['section_name'] : 'N/A'); ?></li>
 					<li><div class="icon-holder" data-toggle="tooltip" data-original-title="<?=translate('mobile_no')?>"><i class="fas fa-phone"></i></div> <?=(!empty($staff['mobileno']) ? $staff['mobileno'] : 'N/A'); ?></li>
 					<li><div class="icon-holder" data-toggle="tooltip" data-original-title="<?=translate('email')?>"><i class="far fa-envelope"></i></div> <?=$staff['email']?></li>
 					<li><div class="icon-holder" data-toggle="tooltip" data-original-title="<?=translate('present_address')?>"><i class="fas fa-home"></i></div> <?=(!empty($staff['present_address']) ? $staff['present_address'] : 'N/A'); ?></li>
@@ -72,27 +71,10 @@
 						<div class="row">
 							<div class="col-md-4 mb-sm">
 								<div class="form-group">
-									<label class="control-label"><?=translate('religion')?></label>
-									<input type="text" class="form-control" name="religion" value="<?=set_value('religion', $staff['religion'])?>">
-								</div>
-							</div>
-							<div class="col-md-4 mb-sm">
-								<div class="form-group">
-									<label class="control-label"><?=translate('blood_group')?></label>
-									<?php
-										$bloodArray = $this->app_lib->getBloodgroup();
-										echo form_dropdown("blood_group", $bloodArray, set_value('blood_group', $staff['blood_group']), "class='form-control populate' data-plugin-selectTwo
-										data-width='100%' data-minimum-results-for-search='Infinity' ");
-									?>
-								</div>
-							</div>
-
-							<div class="col-md-4 mb-sm">
-								<div class="form-group">
 									<label class="control-label"><?=translate('birthday')?> </label>
 									<div class="input-group">
 										<span class="input-group-addon"><i class="fas fa-birthday-cake"></i></span>
-										<input class="form-control" name="birthday" value="<?=set_value('birthday', $staff['birthday'])?>" data-plugin-datepicker data-plugin-options='{ "startView": 2 }' autocomplete="off" type="text">
+										<input class="form-control" name="birthday" value="<?=set_value('birthday', !empty($staff['birthday'])) ? $staff['birthday'] : date("h:i:sa")?>" data-plugin-datepicker data-plugin-options='{ "startView": 2 }' autocomplete="off" type="text">
 									</div>
 								</div>
 							</div>
@@ -129,14 +111,8 @@
 									<span class="error"><?php echo form_error('present_address'); ?></span>
 								</div>
 							</div>
-							<div class="col-md-6 mb-sm">
-								<div class="form-group">
-									<label class="control-label"><?=translate('permanent_address')?></label>
-									<textarea class="form-control" rows="2" name="permanent_address" placeholder="<?=translate('permanent_address')?>" ><?=set_value('permanent_address', $staff['permanent_address'])?></textarea>
-								</div>
-							</div>
 						</div>
-						
+
 						<div class="row mb-md">
 							<div class="col-md-12">
 								<div class="form-group">
@@ -182,28 +158,6 @@
 									<span class="error"><?php echo form_error('branch_id'); ?></span>
 								</div>
 							</div>
-							<div class="col-md-4 mb-sm">
-								<div class="form-group">
-									<label class="control-label"><?=translate('designation')?> <span class="required">*</span></label>
-									<?php
-										$designation_list = $this->app_lib->getDesignation($staff['branch_id']);
-										echo form_dropdown("designation_id", $designation_list, set_value('designation_id', $staff['designation']), "class='form-control' id='designation_id' $disabled
-										data-plugin-selectTwo data-width='100%' data-minimum-results-for-search='Infinity'");
-									?>
-									<span class="error"><?php echo form_error('designation_id'); ?></span>
-								</div>
-							</div>
-							<div class="col-md-4 mb-sm">
-								<div class="form-group">
-									<label class="control-label"><?=translate('department')?> <span class="required">*</span></label>
-									<?php
-										$department_list = $this->app_lib->getDepartment($staff['branch_id']);
-										echo form_dropdown("department_id", $department_list, set_value('department_id', $staff['department']), "class='form-control' id='department_id' $disabled
-										data-plugin-selectTwo data-width='100%' data-minimum-results-for-search='Infinity'");
-									?>
-									<span class="error"><?php echo form_error('department_id'); ?></span>
-								</div>
-							</div>
 						</div>
 
 						<div class="row mb-lg">
@@ -216,13 +170,6 @@
 										autocomplete="off" value="<?=set_value('joining_date', $staff['joining_date'])?>">
 									</div>
 									<span class="error"><?php echo form_error('joining_date'); ?></span>
-								</div>
-							</div>
-							<div class="col-md-4 mb-sm">
-								<div class="form-group">
-									<label class="control-label"><?=translate('qualification')?> <span class="required">*</span></label>
-									<input type="text" class="form-control" name="qualification" <?=$disabled?> value="<?=set_value('qualification', $staff['qualification'])?>" />
-									<span class="error"><?php echo form_error('qualification'); ?></span>
 								</div>
 							</div>
 							<div class="col-md-4 mb-sm">
@@ -249,7 +196,7 @@
 									<label class="control-label">Facebook</label>
 									<div class="input-group">
 										<span class="input-group-addon"><i class="fab fa-facebook-f"></i></span>
-										<input type="text" class="form-control" name="facebook" value="<?=set_value('facebook', $staff['facebook_url'])?>" />
+										<input type="text" class="form-control" name="facebook" value="<?=set_value('facebook',!empty($staff['facebook_url'])) ? $staff['facebook_url'] : "NaN" ?>" />
 									</div>
 									<span class="error"><?php echo form_error('facebook'); ?></span>
 								</div>
@@ -259,7 +206,7 @@
 									<label class="control-label">Twitter</label>
 									<div class="input-group">
 										<span class="input-group-addon"><i class="fab fa-twitter"></i></span>
-										<input type="text" class="form-control" name="twitter" value="<?=set_value('twitter', $staff['twitter_url'])?>" />
+										<input type="text" class="form-control" name="twitter" value="<?=set_value('twitter', !empty($staff['twitter_url'])) ? $staff['twitter_url'] : "NaN"?>" />
 									</div>
 									<span class="error"><?php echo form_error('twitter'); ?></span>
 								</div>
@@ -269,7 +216,7 @@
 									<label class="control-label">Linkedin</label>
 									<div class="input-group">
 										<span class="input-group-addon"><i class="fab fa-linkedin-in"></i></span>
-										<input type="text" class="form-control" name="linkedin" value="<?=set_value('linkedin', $staff['linkedin_url'])?>" />
+										<input type="text" class="form-control" name="linkedin" value="<?=set_value('linkedin', !empty($staff['linkedin_url'])) ? $staff['linkedin_url'] : "NaN"?>" />
 									</div>
 									<span class="error"><?php echo form_error('linkedin'); ?></span>
 								</div>
@@ -281,7 +228,7 @@
 					<div class="row">
 						<div class="col-md-offset-9 col-md-3">
 							<button class="btn btn-default btn-block" type="submit"><i class="fas fa-plus-circle"></i> <?php echo translate('update'); ?></button>
-						</div>	
+						</div>
 					</div>
 				</div>
 			<?php echo form_close(); ?>

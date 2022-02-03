@@ -1,35 +1,6 @@
 <div class="row">
 	<div class="col-md-12">
-<?php if (is_superadmin_loggedin() ): ?>
-	<section class="panel">
-		<header class="panel-heading">
-			<h4 class="panel-title"><?=translate('select_ground')?></h4>
-		</header>
-		<?php echo form_open($this->uri->uri_string(), array('id' => 'frmsection', 'class' => 'validate'));?>
-		<div class="panel-body">
-			<div class="row mb-sm">
-				<div class="col-md-offset-3 col-md-6">
-					<div class="form-group">
-						<label class="control-label"><?=translate('branch')?> <span class="required">*</span></label>
-						<?php
-							$arrayBranch = $this->app_lib->getSelectList('branch');
-							echo form_dropdown("branch_id", $arrayBranch, $branch_id, "class='form-control' id='branch_id' required
-							data-plugin-selectTwo data-width='100%' data-minimum-results-for-search='Infinity'");
-						?>
-					</div>
-				</div>
-			</div>
-		</div>
-		<footer class="panel-footer">
-			<div class="row">
-				<div class="col-md-offset-10 col-md-2">
-					<button type="submit" class="btn btn-default btn-block"> <i class="fas fa-filter"></i> <?=translate('filter')?></button>
-				</div>
-			</div>
-		</footer>
-		<?php echo form_close();?>
-	</section>
-<?php endif; if (!empty($branch_id)): ?>
+<?php $branch_id=1 ?>
 		<section class="panel">
 			<header class="panel-heading">
 				<h4 class="panel-title"><i class="fas fa-globe"></i> <?php echo translate('website') . " " . translate('settings'); ?></h4>
@@ -262,27 +233,3 @@
 		</section>
 	</div>
 </div>
-
-<script type="text/javascript">
-	// frontend setting captcha status
-	$('#captchaStatus').on('change', function(){
-	    var status = $(this).val();
-	    if(status == "enable") {
-	        $('#recaptcha_site_key').show(300);
-	        $('#recaptcha_secret_key').show(300);
-	    } else {
-	        $('#recaptcha_site_key').hide(300);
-	        $('#recaptcha_secret_key').hide(300);
-	    }
-	});
-
-	<?php if($setting['captcha_status'] == "enable") { ?>
-		$('#recaptcha_site_key').show();
-		$('#recaptcha_secret_key').show();
-	<?php } else { ?>
-		$('#recaptcha_site_key').hide();
-		$('#recaptcha_secret_key').hide();
-	<?php } ?>
-</script>
-
-<?php endif; ?>

@@ -44,11 +44,9 @@ class Home_model extends MY_Model
 
     public function get_teacher_list($start = '', $branch_id)
     {
-        $this->db->select('staff.*,staff_designation.name as designation_name,staff_department.name as department_name');
+        $this->db->select('staff.*');
         $this->db->from('staff');
         $this->db->join('login_credential', 'login_credential.user_id = staff.id and login_credential.role != 7', 'inner');
-        $this->db->join('staff_designation', 'staff_designation.id = staff.designation', 'left');
-        $this->db->join('staff_department', 'staff_department.id = staff.department', 'left');
         $this->db->where('login_credential.role', 3);
         $this->db->where('login_credential.active', 1);
         $this->db->where('staff.branch_id', $branch_id);
@@ -56,21 +54,6 @@ class Home_model extends MY_Model
         if ($start != '') {
             $this->db->limit(4, $start);
         }
-        $result = $this->db->get()->result_array();
-        return $result;
-    }
-
-    public function get_teacher_departments($branch_id)
-    {
-        $this->db->select('staff_department.id as department_id,staff_department.name as department_name');
-        $this->db->from('staff_department');
-        $this->db->join('staff', 'staff.department = staff_department.id', 'left');
-        $this->db->join('login_credential', 'login_credential.user_id = staff.id and login_credential.role != 7', 'inner');
-        $this->db->where('login_credential.role', 3);
-        $this->db->where('login_credential.active', 1);
-        $this->db->where('staff_department.branch_id', $branch_id);
-        $this->db->group_by('staff_department.id');
-        $this->db->order_by('staff.id', 'asc');
         $result = $this->db->get()->result_array();
         return $result;
     }
@@ -220,20 +203,6 @@ class Home_model extends MY_Model
                 $this->db->where_not_in('login_credential.role', array(1, 6, 7));
             }
             $this->db->where('staff.branch_id', $branch_id);
-            $q = $this->db->get()->row_array();
-            $result = $q['snumber'];
-        }
-        if ($type == 'student') {
-            $this->db->select('student.id');
-            $this->db->from('enroll');
-            $this->db->join('student', 'student.id = enroll.student_id', 'inner');
-            $this->db->where('enroll.branch_id', $branch_id);
-            $result = $this->db->get()->num_rows();
-        }
-        if ($type == 'parent') {
-            $this->db->select('count(parent.id) as snumber');
-            $this->db->from('parent');
-            $this->db->where('parent.branch_id', $branch_id);
             $q = $this->db->get()->row_array();
             $result = $q['snumber'];
         }

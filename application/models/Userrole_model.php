@@ -13,12 +13,10 @@ class Userrole_model extends MY_Model
 
     public function getTeachersList($branchID = '')
     {
-        $this->db->select('staff.*,staff_designation.name as designation_name,staff_department.name as department_name,login_credential.role as role_id, roles.name as role');
+        $this->db->select('staff.* as department_name,login_credential.role as role_id, roles.name as role');
         $this->db->from('staff');
         $this->db->join('login_credential', 'login_credential.user_id = staff.id and login_credential.role != "6" and login_credential.role != "7"', 'inner');
         $this->db->join('roles', 'roles.id = login_credential.role', 'left');
-        $this->db->join('staff_designation', 'staff_designation.id = staff.designation', 'left');
-        $this->db->join('staff_department', 'staff_department.id = staff.department', 'left');
         if ($branchID != "") {
             $this->db->where('staff.branch_id', $branchID);
         }
@@ -87,44 +85,6 @@ class Userrole_model extends MY_Model
     {
         $sql = "SELECT student_attendance.* FROM student_attendance WHERE student_id = " . $this->db->escape($studentID) . " AND date = " . $this->db->escape($date);
         return $this->db->query($sql)->row_array();
-    }
-
-   
-    public function getStudentDetails()
-    {
-        if (is_student_loggedin()) {
-            $studentID = get_loggedin_user_id();
-        } elseif (is_parent_loggedin()) {
-            $studentID = get_activeChildren_id();
-        }
-        $this->db->select('CONCAT(s.first_name, " ", s.last_name) as fullname,s.email as student_email,e.branch_id,e.student_id,s.hostel_id,s.room_id,s.route_id,s.vehicle_id,e.class_id,e.section_id,c.name as class_name,se.name as section_name,b.school_name,b.email as school_email,b.mobileno as school_mobileno,b.address as school_address');
-        $this->db->from('enroll as e');
-        $this->db->join('student as s', 's.id = e.student_id', 'inner');
-        $this->db->join('branch as b', 'b.id = e.branch_id', 'left');
-        $this->db->join('class as c', 'c.id = e.class_id', 'left');
-        $this->db->join('section as se', 'se.id = e.section_id', 'left');
-        $this->db->where('s.id', $studentID);
-        return $this->db->get()->row_array();
-    }
-
-    public function getHomeworkList($studentID)
-    {
-        $this->db->select('homework.*,CONCAT(s.first_name, " ",s.last_name) as fullname,s.register_no,e.student_id, e.roll,subject.name as subject_name,class.name as class_name,section.name as section_name,he.id as ev_id,he.status as ev_status,he.remark as ev_remarks,he.rank');
-        $this->db->from('homework');
-        $this->db->join('enroll as e', 'e.class_id=homework.class_id and e.section_id = homework.section_id and e.session_id = homework.session_id', 'inner');
-        $this->db->join('student as s', 'e.student_id = s.id', 'inner');
-        $this->db->join('homework_evaluation as he', 'he.homework_id = homework.id and he.student_id = e.student_id', 'left');
-        $this->db->join('subject', 'subject.id = homework.subject_id', 'left');
-        $this->db->join('class', 'class.id = homework.class_id', 'left');
-        $this->db->join('section', 'section.id = homework.section_id', 'left');
-        $this->db->where('e.student_id', $studentID);
-        if (!is_superadmin_loggedin()) {
-            $this->db->where('homework.branch_id', get_loggedin_branch_id());
-        }
-        $this->db->where('homework.status', 0);
-        $this->db->where('homework.session_id', get_session_id());
-        $this->db->order_by('homework.id', 'desc');
-        return $this->db->get()->result_array();
     }
 
     public function getUserDetails()

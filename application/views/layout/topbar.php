@@ -27,20 +27,6 @@
                 </div>
             </li>
         </ul>
-
-        <!-- search bar -->
-        <?php if (get_permission('student', 'is_view')): ?>
-            <span class="separator hidden-sm"></span>
-            <?php echo form_open('student/search', array('class' => 'search nav-form')); ?>
-            <div class="input-group input-search">
-                <input type="text" class="form-control" name="search_text" id="search_text"
-                       placeholder="<?php echo translate('search'); ?>">
-                <span class="input-group-btn">
-						<button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
-					</span>
-            </div>
-            </form>
-        <?php endif; ?>
     </div>
 
     <div class="header-right">

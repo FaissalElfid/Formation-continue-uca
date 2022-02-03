@@ -111,6 +111,37 @@
                         </li>
                     <?php } ?>
                     <?php
+                    if(get_permission('employee', 'is_view') ||
+                        get_permission('employee', 'is_add') ||
+                        get_permission('employee_disable_authentication', 'is_view')) {
+                        ?>
+                        <!-- Employees -->
+                        <li class="nav-parent <?php if ($main_menu == 'employee') echo 'nav-expanded nav-active'; ?>">
+                            <a><i class="fas fa-users"></i><span><?php echo translate('employee'); ?></span></a>
+                            <ul class="nav nav-children">
+                                <?php if(get_permission('employee', 'is_view')){ ?>
+                                    <li class="<?php if ($sub_page == 'employee/view' ||  $sub_page == 'employee/profile' ) echo 'nav-active'; ?>">
+                                        <a href="<?php echo base_url('employee/view'); ?>">
+                                            <span><i class="fas fa-caret-right" aria-hidden="true"></i><?php echo translate('employee_list'); ?></span>
+                                        </a>
+                                    </li>
+                                <?php } if(get_permission('employee', 'is_add')){ ?>
+                                    <li class="<?php if ($sub_page == 'employee/add') echo 'nav-active'; ?>">
+                                        <a href="<?php echo base_url('employee/add'); ?>">
+                                            <span><i class="fas fa-caret-right" aria-hidden="true"></i><?php echo translate('add_employee'); ?></span>
+                                        </a>
+                                    </li>
+                                <?php } if(get_permission('employee_disable_authentication', 'is_view')){ ?>
+                                    <li class="<?php if ($sub_page == 'employee/disable_authentication') echo 'nav-active'; ?>">
+                                        <a href="<?php echo base_url('employee/disable_authentication'); ?>">
+                                            <span><i class="fas fa-caret-right" aria-hidden="true"></i><?php echo translate('login_deactivate'); ?></span>
+                                        </a>
+                                    </li>
+                                <?php } ?>
+                            </ul>
+                        </li>
+                    <?php } ?>
+                    <?php
                     if(get_permission('classes', 'is_view') ||
                         get_permission('section', 'is_view')) {
                         ?>
@@ -133,6 +164,7 @@
                             </ul>
                         </li>
                     <?php } ?>
+
                     <?php
                     if (get_permission('online_admission', 'is_view')) {
                         ?>
@@ -143,8 +175,8 @@
                             </a>
                             <ul class="nav nav-children">
                                 <?php if(get_permission('online_admission', 'is_view')){ ?>
-                                    <li class="<?php if ($sub_page == 'online_admission/index') echo 'nav-active';?>">
-                                        <a href="<?=base_url('online_admission/index')?>">
+                                    <li class="<?php if ($sub_page == 'online_admission') echo 'nav-active';?>">
+                                        <a href="<?=base_url('online_admission')?>">
                                             <span><i class="fas fa-caret-right" aria-hidden="true"></i><?=translate('online_admission')?></span>
                                         </a>
                                     </li>
@@ -152,6 +184,7 @@
                             </ul>
                         </li>
                     <?php } ?>
+
                     <?php
                     if(get_permission('attachments', 'is_view')) {
                         ?>
@@ -198,12 +231,6 @@
                                     </li>
                                 <?php }?>
                                 <?php if (is_superadmin_loggedin()) { ?>
-                                    <li class="<?php if ($sub_page == 'role/index' || $sub_page == 'role/permission') echo 'nav-active';?>">
-                                        <a href="<?=base_url('role')?>">
-                                            <span><i class="fas fa-caret-right" aria-hidden="true"></i><?=translate('role_permission')?></span>
-                                        </a>
-                                    </li>
-                                <?php } if (is_superadmin_loggedin()) { ?>
                                     <li class="<?php if ($sub_page == 'sessions/index') echo 'nav-active';?>">
                                         <a href="<?=base_url('sessions')?>">
                                             <span><i class="fas fa-caret-right" aria-hidden="true"></i><?=translate('session_settings')?></span>

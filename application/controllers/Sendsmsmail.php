@@ -4,11 +4,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /**
  * @package : Ramom school management system
  * @version : 4.0
- * @developed by : RamomCoder
- * @support : ramomcoder@yahoo.com
- * @author url : http://codecanyon.net/user/RamomCoder
+ * @developed by : Faissal EL FID
+ * @support : faissal.elfid@gmail.com
+ * @copyright : Reserved for an IRISI Student
  * @filename : Sendsmsmail.php
- * @copyright : Reserved RamomCoder Team
+
  */
 
 class Sendsmsmail extends Admin_Controller
@@ -115,7 +115,7 @@ class Sendsmsmail extends Admin_Controller
         $this->load->view('layout/index', $this->data);
     }
 
-    function save() 
+    function save()
     {
         if (!get_permission('sendsmsmail', 'is_add')) {
             ajax_access_denied();
@@ -163,7 +163,7 @@ class Sendsmsmail extends Admin_Controller
                 $sendLater = (isset($_POST['send_later']) ? 1 : 2);
                 $emailSubject = $this->input->post('email_subject');
                 $smsGateway = $this->input->post('sms_gateway');
-                
+
                 if ($recipientType == 1) {
                     $roleGroup = $this->input->post('role_group[]');
                     $receivedDetails['role'] = $roleGroup;
@@ -453,7 +453,6 @@ class Sendsmsmail extends Admin_Controller
             if ($roleID == 7) {
                 $this->db->select('e.student_id,e.roll,CONCAT(s.first_name, " ", s.last_name) as name');
                 $this->db->from('enroll as e');
-                $this->db->join('student as s', 's.id = e.student_id', 'inner');
                 $this->db->where('e.branch_id', $branchID);
                 $this->db->where('e.session_id', get_session_id());
                 $students = $this->db->get()->result_array();

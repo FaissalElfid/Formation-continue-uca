@@ -4,11 +4,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /**
  * @package : Ramom school management system
  * @version : 4.0
- * @developed by : RamomCoder
- * @support : ramomcoder@yahoo.com
- * @author url : http://codecanyon.net/user/RamomCoder
+ * @developed by : Faissal EL FID
+ * @support : faissal.elfid@gmail.com
+ * @copyright : Reserved for an IRISI Student
  * @filename : Dashboard.php
- * @copyright : Reserved RamomCoder Team
+
  */
 
 class Dashboard extends Admin_Controller
@@ -22,24 +22,6 @@ class Dashboard extends Admin_Controller
 
     public function index()
     {
-        if (is_student_loggedin() || is_parent_loggedin()) {
-            $studentID = 0;
-            if (is_student_loggedin()) {
-                $this->data['title'] = translate('welcome_to') . " " . $this->session->userdata('name');
-                $studentID = get_loggedin_user_id();
-            }elseif (is_parent_loggedin()) {
-                $studentID = $this->session->userdata('myChildren_id');
-                if (!empty($studentID)) {
-                    $this->data['title'] = get_type_name_by_id('student', $studentID, 'first_name') . " - " . translate('dashboard');
-                } else {
-                    $this->data['title'] = translate('welcome_to') . " " . $this->session->userdata('name');
-                }
-            }
-            $this->data['student_id'] = $studentID;
-            $schoolID = get_loggedin_branch_id();
-            $this->data['school_id'] = $schoolID;
-            $this->data['sub_page'] = 'userrole/dashboard';
-        } else {
             if (is_superadmin_loggedin()) {
                 if ($this->input->get('school_id')) {
                     $schoolID = $this->input->get('school_id');
@@ -48,16 +30,12 @@ class Dashboard extends Admin_Controller
                     $this->data['title'] = translate('all_branch_dashboard');
                     $schoolID = "";
                 }
-            } else {
-                $schoolID = get_loggedin_branch_id();
-                $this->data['title'] = get_type_name_by_id('branch', $schoolID) . " " . translate('branch_dashboard');
             }
-            $this->data['school_id'] = $schoolID;
-            $this->data['student_by_class'] = $this->dashboard_model->getStudentByClass($schoolID);
+            $this->data['school_id'] = 1;
+            $this->data['get_staff_count'] = $this->dashboard_model->getStaffCounter($schoolID);
             $this->data['get_monthly_admission'] = $this->dashboard_model->getMonthlyAdmission($schoolID);
-            $this->data['get_total_student'] = $this->dashboard_model->get_total_student($schoolID);
             $this->data['sub_page'] = 'dashboard/index';
-        }
+
         $this->data['headerelements'] = array(
             'css' => array(
                 'vendor/fullcalendar/fullcalendar.css',

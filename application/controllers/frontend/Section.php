@@ -31,8 +31,8 @@ class Section extends Admin_Controller
     // home features
     public function home()
     {
-        $branchID                   = $this->frontend_model->getBranchID();
-        $this->data['branch_id']    = $branchID;
+        $branchID                   = 1;
+        $this->data['branch_id']    = 1;
         $this->data['wellcome']     = $this->frontend_model->get('front_cms_home', array('item_type' => 'wellcome', 'branch_id' => $branchID), true);
         $this->data['home_seo']     = $this->frontend_model->get('front_cms_home_seo', array('branch_id' => $branchID), true);
         $this->data['teachers']     = $this->frontend_model->get('front_cms_home', array('item_type' => 'teachers', 'branch_id' => $branchID), true);
@@ -53,7 +53,7 @@ class Section extends Admin_Controller
             if (!get_permission('frontend_section', 'is_add')) {
                 ajax_access_denied();
             }
-            $branchID = $this->frontend_model->getBranchID();
+            $branchID = 1;
             $this->form_validation->set_rules('wel_title', 'Title', 'trim|required');
             $this->form_validation->set_rules('subtitle', 'Subtitle', 'trim|required');
             $this->form_validation->set_rules('description', 'Description', 'trim|required');
@@ -61,15 +61,15 @@ class Section extends Admin_Controller
             if ($this->form_validation->run() == true) {
                 // save information in the database
                 $arrayWellcome = array(
-                    'branch_id' => $branchID,
+                    'branch_id' => 1,
                     'title' => $this->input->post('wel_title'),
                     'subtitle' => $this->input->post('subtitle'),
                     'active' => (isset($_POST['isvisible']) ? 1 : 0),
                     'description' => $this->input->post('description'),
-                    'elements' => json_encode(array('image' => $this->uploadImage('wellcome' . $branchID, 'home_page'))),
+                    'elements' => json_encode(array('image' => $this->uploadImage('wellcome' . 1, 'home_page'))),
                 );
                 // save information in the database
-                $this->saveHome('wellcome', $branchID, $arrayWellcome);
+                $this->saveHome('wellcome', 1, $arrayWellcome);
                 set_alert('success', translate('information_has_been_saved_successfully'));
                 $array = array('status' => 'success');
             } else {
@@ -88,7 +88,7 @@ class Section extends Admin_Controller
                 ajax_access_denied();
             }
 
-            $branchID = $this->frontend_model->getBranchID();
+            $branchID = 1;
             $this->form_validation->set_rules('tea_title', 'Title', 'trim|required');
             $this->form_validation->set_rules('tea_description', 'Description', 'trim|required');
             $this->form_validation->set_rules('photo', 'Photo', 'trim|callback_check_image');
@@ -125,7 +125,7 @@ class Section extends Admin_Controller
                 ajax_access_denied();
             }
 
-            $branchID = $this->frontend_model->getBranchID();
+            $branchID = 1;
             $this->form_validation->set_rules('tes_title', 'Title', 'trim|required');
             $this->form_validation->set_rules('tes_description', 'Description', 'trim|required');
             if ($this->form_validation->run() == true) {
@@ -157,7 +157,7 @@ class Section extends Admin_Controller
                 ajax_access_denied();
             }
 
-            $branchID = $this->frontend_model->getBranchID();
+            $branchID = 1;
             $this->form_validation->set_rules('ser_title', 'Title', 'trim|required');
             $this->form_validation->set_rules('ser_description', 'Description', 'trim|required');
             if ($this->form_validation->run() == true) {
@@ -188,10 +188,10 @@ class Section extends Admin_Controller
                 ajax_access_denied();
             }
 
-            $branchID = $this->frontend_model->getBranchID();
+            $branchID = 1;
             $this->form_validation->set_rules('sta_title', 'Title', 'trim|required');
             $this->form_validation->set_rules('sta_description', 'Description', 'trim|required');
-            for ($i=1; $i < 5; $i++) { 
+            for ($i=1; $i < 5; $i++) {
                 $this->form_validation->set_rules('widget_title_' . $i, 'Widget Title', 'trim|required');
                 $this->form_validation->set_rules('widget_icon_' . $i, 'Widget Icon', 'trim|required');
                 $this->form_validation->set_rules('statistics_type_' . $i, 'Statistics Type', 'trim|required');
@@ -232,7 +232,7 @@ class Section extends Admin_Controller
                 ajax_access_denied();
             }
 
-            $branchID = $this->frontend_model->getBranchID();
+            $branchID = 1;
             $this->form_validation->set_rules('cta_title', 'Cta Title', 'trim|required');
             $this->form_validation->set_rules('mobile_no', 'Mobile No', 'trim|required');
             $this->form_validation->set_rules('button_text', 'Button Text', 'trim|required');
@@ -255,7 +255,7 @@ class Section extends Admin_Controller
                 $array = array('status' => 'success');
             } else {
                 $error = $this->form_validation->error_array();
-                $array = array('status' => 'fail', 'error' => $error); 
+                $array = array('status' => 'fail', 'error' => $error);
             }
             echo json_encode($array);
         }
@@ -268,7 +268,7 @@ class Section extends Admin_Controller
             if (!get_permission('frontend_section', 'is_add')) {
                 ajax_access_denied();
             }
-            $branchID = $this->frontend_model->getBranchID();
+            $branchID = 1;
             $this->form_validation->set_rules('page_title', 'Page Title', 'trim|required');
             if ($this->form_validation->run() == true) {
                 // save information in the database
@@ -290,7 +290,7 @@ class Section extends Admin_Controller
                 $array = array('status' => 'success');
             } else {
                 $error = $this->form_validation->error_array();
-                $array = array('status' => 'fail', 'error' => $error); 
+                $array = array('status' => 'fail', 'error' => $error);
             }
             echo json_encode($array);
         }
@@ -298,7 +298,7 @@ class Section extends Admin_Controller
 
     public function teachers()
     {
-        $branchID = $this->frontend_model->getBranchID();
+        $branchID = 1;
         if ($_POST) {
             if (!get_permission('frontend_section', 'is_add')) {
                 ajax_access_denied();
@@ -326,7 +326,7 @@ class Section extends Admin_Controller
                 $array = array('status' => 'success');
             } else {
                 $error = $this->form_validation->error_array();
-                $array = array('status' => 'fail', 'error' => $error); 
+                $array = array('status' => 'fail', 'error' => $error);
             }
             echo json_encode($array);
             exit();
@@ -341,7 +341,7 @@ class Section extends Admin_Controller
 
     public function events()
     {
-        $branchID = $this->frontend_model->getBranchID();
+        $branchID = 1;
         $this->data['branch_id'] = $branchID;
         $this->data['events'] = $this->frontend_model->get('front_cms_events', array('branch_id' => $branchID), true);
         $this->data['title'] = translate('website_page');
@@ -357,7 +357,7 @@ class Section extends Admin_Controller
             if (!get_permission('frontend_section', 'is_add')) {
                 access_denied();
             }
-            $branchID = $this->frontend_model->getBranchID();
+            $branchID = 1;
             $this->form_validation->set_rules('title', 'Title', 'trim|required');
             $this->form_validation->set_rules('description', 'Description', 'trim|required');
             if ($this->form_validation->run() == true) {
@@ -379,7 +379,7 @@ class Section extends Admin_Controller
                 $array = array('status' => 'success');
             } else {
                 $error = $this->form_validation->error_array();
-                $array = array('status' => 'fail', 'error' => $error); 
+                $array = array('status' => 'fail', 'error' => $error);
             }
             echo json_encode($array);
         }
@@ -392,7 +392,7 @@ class Section extends Admin_Controller
             if (!get_permission('frontend_section', 'is_add')) {
                 access_denied();
             }
-            $branchID = $this->frontend_model->getBranchID();
+            $branchID = 1;
             $this->form_validation->set_rules('page_title', 'Page Title', 'trim|required');
             $this->form_validation->set_rules('photo', 'Photo', 'trim|callback_check_image');
             if ($this->form_validation->run() == true) {
@@ -416,7 +416,7 @@ class Section extends Admin_Controller
                 $array = array('status' => 'success');
             } else {
                 $error = $this->form_validation->error_array();
-                $array = array('status' => 'fail', 'error' => $error); 
+                $array = array('status' => 'fail', 'error' => $error);
             }
             echo json_encode($array);
         }
@@ -424,7 +424,7 @@ class Section extends Admin_Controller
 
     public function about()
     {
-        $branchID = $this->frontend_model->getBranchID();
+        $branchID = 1;
         $this->data['branch_id']    = $branchID;
         $this->data['about']        = $this->frontend_model->get('front_cms_about', array('branch_id' => $branchID), true);
         $this->data['service']      = $this->frontend_model->get('front_cms_services', array('branch_id' => $branchID), true);
@@ -446,7 +446,7 @@ class Section extends Admin_Controller
             $this->form_validation->set_rules('subtitle', 'Subtitle', 'trim|required');
             $this->form_validation->set_rules('content', 'Content', 'trim|required');
             if ($this->form_validation->run() == true) {
-                $branchID = $this->frontend_model->getBranchID();
+                $branchID = 1;
                 // save information in the database
                 $arrayData = array(
                     'title' => $this->input->post('title'),
@@ -466,7 +466,7 @@ class Section extends Admin_Controller
                 $array = array('status' => 'success');
             } else {
                 $error = $this->form_validation->error_array();
-                $array = array('status' => 'fail', 'error' => $error); 
+                $array = array('status' => 'fail', 'error' => $error);
             }
             echo json_encode($array);
         }
@@ -483,7 +483,7 @@ class Section extends Admin_Controller
             $this->form_validation->set_rules('title', 'Title', 'trim|required');
             $this->form_validation->set_rules('subtitle', 'Subtitle', 'trim|required');
             if ($this->form_validation->run() == true) {
-                $branchID = $this->frontend_model->getBranchID();
+                $branchID = 1;
 
                 // save information in the database
                 $arrayData = array(
@@ -504,7 +504,7 @@ class Section extends Admin_Controller
                 $array = array('status' => 'success');
             } else {
                 $error = $this->form_validation->error_array();
-                $array = array('status' => 'fail', 'error' => $error); 
+                $array = array('status' => 'fail', 'error' => $error);
             }
             echo json_encode($array);
         }
@@ -517,7 +517,7 @@ class Section extends Admin_Controller
             if (!get_permission('frontend_section', 'is_add')) {
                 ajax_access_denied();
             }
-            $branchID = $this->frontend_model->getBranchID();
+            $branchID = 1;
             $this->form_validation->set_rules('cta_title', 'Cta Title', 'trim|required');
             $this->form_validation->set_rules('button_text', 'Button Text', 'trim|required');
             $this->form_validation->set_rules('button_url', 'Button Url', 'trim|required');
@@ -540,7 +540,7 @@ class Section extends Admin_Controller
                 $array = array('status' => 'success');
             } else {
                 $error = $this->form_validation->error_array();
-                $array = array('status' => 'fail', 'error' => $error); 
+                $array = array('status' => 'fail', 'error' => $error);
             }
             echo json_encode($array);
         }
@@ -553,7 +553,7 @@ class Section extends Admin_Controller
             if (!get_permission('frontend_section', 'is_add')) {
                 ajax_access_denied();
             }
-            $branchID = $this->frontend_model->getBranchID();
+            $branchID = 1;
             $this->form_validation->set_rules('page_title', 'Page Title', 'trim|required');
             if ($this->form_validation->run() == true) {
                 // save information in the database
@@ -575,7 +575,7 @@ class Section extends Admin_Controller
                 $array = array('status' => 'success');
             } else {
                 $error = $this->form_validation->error_array();
-                $array = array('status' => 'fail', 'error' => $error); 
+                $array = array('status' => 'fail', 'error' => $error);
             }
             echo json_encode($array);
         }
@@ -583,7 +583,7 @@ class Section extends Admin_Controller
 
     public function faq()
     {
-        $branchID = $this->frontend_model->getBranchID();
+        $branchID = 1;
         $this->data['branch_id'] = $branchID;
         $this->data['faq'] = $this->frontend_model->get('front_cms_faq', array('branch_id' => $branchID), true);
         $this->data['title'] = translate('website_page');
@@ -599,7 +599,7 @@ class Section extends Admin_Controller
             if (!get_permission('frontend_section', 'is_add')) {
                 access_denied();
             }
-            $branchID = $this->frontend_model->getBranchID();
+            $branchID = 1;
             $this->form_validation->set_rules('title', 'Title', 'trim|required');
             $this->form_validation->set_rules('description', 'Description', 'trim|required');
             if ($this->form_validation->run() == true) {
@@ -621,7 +621,7 @@ class Section extends Admin_Controller
                 $array = array('status' => 'success');
             } else {
                 $error = $this->form_validation->error_array();
-                $array = array('status' => 'fail', 'error' => $error); 
+                $array = array('status' => 'fail', 'error' => $error);
             }
             echo json_encode($array);
         }
@@ -634,7 +634,7 @@ class Section extends Admin_Controller
             if (!get_permission('frontend_section', 'is_add')) {
                 access_denied();
             }
-            $branchID = $this->frontend_model->getBranchID();
+            $branchID = 1;
             $this->form_validation->set_rules('page_title', 'Page Title', 'trim|required');
             $this->form_validation->set_rules('photo', 'Photo', 'trim|callback_check_image');
             if ($this->form_validation->run() == true) {
@@ -658,7 +658,7 @@ class Section extends Admin_Controller
                 $array = array('status' => 'success');
             } else {
                 $error = $this->form_validation->error_array();
-                $array = array('status' => 'fail', 'error' => $error); 
+                $array = array('status' => 'fail', 'error' => $error);
             }
             echo json_encode($array);
         }
@@ -666,9 +666,8 @@ class Section extends Admin_Controller
 
     public function admission()
     {
-        $branchID = $this->frontend_model->getBranchID();
-        $this->data['branch_id'] = $branchID;
-        $this->data['admission'] = $this->frontend_model->get('front_cms_admission', array('branch_id' => $branchID), true);
+        $this->data['branch_id'] = 1;
+        $this->data['admission'] = $this->frontend_model->get('front_cms_admission', array('branch_id' => 1), true);
         $this->data['title'] = translate('website_page');
         $this->data['sub_page'] = 'frontend/section_admission';
         $this->data['main_menu'] = 'frontend';
@@ -677,43 +676,23 @@ class Section extends Admin_Controller
 
     public function saveAdmission()
     {
-        $branchID = $this->frontend_model->getBranchID();
+        $branchID = 1;
         if ($_POST) {
             // check access permission
             if (!get_permission('frontend_section', 'is_add')) {
                 ajax_access_denied();
             }
             $this->form_validation->set_rules('title', 'Title', 'trim|required');
-            $items = $this->input->post('addmissionfee');
-            if (!empty($items)) {
-                foreach ($items as $key => $value) {
-                    if ($value['status'] == 1) {
-                        $this->form_validation->set_rules('addmissionfee[' . $key . '][amount]', translate('amount'), 'trim|numeric|required');
-                    }
-                }
-            }
+
 
             if ($this->form_validation->run() == true) {
                 // save information in the database
-                $feeElements = array();
-                if (!empty($items)) {
-                    foreach ($items as $key => $value) {
-                        if ($value['status'] == 1) {
-                            $classID = $value['class_id'];
-                            $feeElements[$classID] = array(
-                                'fee_status' => $value['status'],
-                                'amount' => $value['amount']
-                            );
-                        }
-                    }
-                }
                 $arrayData = array(
                     'branch_id' => $branchID,
                     'title' => $this->input->post('title'),
                     'description' => $this->input->post('description', false),
                     'terms_conditions_title' => $this->input->post('terms_conditions_title'),
                     'terms_conditions_description' => $this->input->post('terms_conditions_description', false),
-                    'fee_elements' => json_encode($feeElements),
                 );
 
                 $this->db->where('branch_id', $branchID);
@@ -728,7 +707,7 @@ class Section extends Admin_Controller
                 $array = array('status' => 'success');
             } else {
                 $error = $this->form_validation->error_array();
-                $array = array('status' => 'fail', 'error' => $error); 
+                $array = array('status' => 'fail', 'error' => $error);
             }
             echo json_encode($array);
         }
@@ -736,7 +715,7 @@ class Section extends Admin_Controller
 
     public function saveAdmissionOption()
     {
-        $branchID = $this->frontend_model->getBranchID();
+        $branchID = 1;
         if ($_POST) {
             if (!get_permission('frontend_section', 'is_add')) {
                 ajax_access_denied();
@@ -764,7 +743,7 @@ class Section extends Admin_Controller
                 $array = array('status' => 'success');
             } else {
                 $error = $this->form_validation->error_array();
-                $array = array('status' => 'fail', 'error' => $error); 
+                $array = array('status' => 'fail', 'error' => $error);
             }
             echo json_encode($array);
         }
@@ -772,7 +751,7 @@ class Section extends Admin_Controller
 
     public function contact()
     {
-        $branchID = $this->frontend_model->getBranchID();
+        $branchID = 1;
         $this->data['branch_id'] = $branchID;
         $this->data['contact'] = $this->frontend_model->get('front_cms_contact', array('branch_id' => $branchID), true);
         $this->data['title'] = translate('website_page');
@@ -787,7 +766,7 @@ class Section extends Admin_Controller
             if (!get_permission('frontend_section', 'is_add')) {
                 access_denied();
             }
-            $branchID = $this->frontend_model->getBranchID();
+            $branchID = 1;
             $this->form_validation->set_rules('box_title', 'Box Title', 'trim|required');
             $this->form_validation->set_rules('box_description', 'Box Description', 'trim|required');
             $this->form_validation->set_rules('form_title', 'Form Title', 'trim|required');
@@ -833,7 +812,7 @@ class Section extends Admin_Controller
                 $array = array('status' => 'success');
             } else {
                 $error = $this->form_validation->error_array();
-                $array = array('status' => 'fail', 'error' => $error); 
+                $array = array('status' => 'fail', 'error' => $error);
             }
             echo json_encode($array);
         }
@@ -845,7 +824,7 @@ class Section extends Admin_Controller
             if (!get_permission('frontend_section', 'is_add')) {
                 access_denied();
             }
-            $branchID = $this->frontend_model->getBranchID();
+            $branchID = 1;
             $this->form_validation->set_rules('page_title', 'Page Title', 'trim|required');
             if ($this->form_validation->run() == true) {
                 // save information in the database
@@ -869,7 +848,7 @@ class Section extends Admin_Controller
                 $array = array('status' => 'success');
             } else {
                 $error = $this->form_validation->error_array();
-                $array = array('status' => 'fail', 'error' => $error); 
+                $array = array('status' => 'fail', 'error' => $error);
             }
             echo json_encode($array);
         }
@@ -938,7 +917,7 @@ class Section extends Admin_Controller
 
     public function admit_card()
     {
-        $branchID = $this->frontend_model->getBranchID();
+        $branchID = 1;
         if ($_POST) {
             if (!get_permission('frontend_section', 'is_add')) {
                 ajax_access_denied();
@@ -970,7 +949,7 @@ class Section extends Admin_Controller
                 $array = array('status' => 'success');
             } else {
                 $error = $this->form_validation->error_array();
-                $array = array('status' => 'fail', 'error' => $error); 
+                $array = array('status' => 'fail', 'error' => $error);
             }
             echo json_encode($array);
             exit();
@@ -985,7 +964,7 @@ class Section extends Admin_Controller
 
     public function exam_results()
     {
-        $branchID = $this->frontend_model->getBranchID();
+        $branchID = 1;
         if ($_POST) {
             if (!get_permission('frontend_section', 'is_add')) {
                 ajax_access_denied();
@@ -1017,7 +996,7 @@ class Section extends Admin_Controller
                 $array = array('status' => 'success');
             } else {
                 $error = $this->form_validation->error_array();
-                $array = array('status' => 'fail', 'error' => $error); 
+                $array = array('status' => 'fail', 'error' => $error);
             }
             echo json_encode($array);
             exit();
@@ -1032,7 +1011,7 @@ class Section extends Admin_Controller
 
     public function certificates()
     {
-        $branchID = $this->frontend_model->getBranchID();
+        $branchID = 1;
         if ($_POST) {
             if (!get_permission('frontend_section', 'is_add')) {
                 ajax_access_denied();
@@ -1062,7 +1041,7 @@ class Section extends Admin_Controller
                 $array = array('status' => 'success');
             } else {
                 $error = $this->form_validation->error_array();
-                $array = array('status' => 'fail', 'error' => $error); 
+                $array = array('status' => 'fail', 'error' => $error);
             }
             echo json_encode($array);
             exit();
@@ -1077,7 +1056,7 @@ class Section extends Admin_Controller
 
     public function gallery()
     {
-        $branchID = $this->frontend_model->getBranchID();
+        $branchID = 1;
         if ($_POST) {
             if (!get_permission('frontend_section', 'is_add')) {
                 ajax_access_denied();
@@ -1105,7 +1084,7 @@ class Section extends Admin_Controller
                 $array = array('status' => 'success');
             } else {
                 $error = $this->form_validation->error_array();
-                $array = array('status' => 'fail', 'error' => $error); 
+                $array = array('status' => 'fail', 'error' => $error);
             }
             echo json_encode($array);
             exit();

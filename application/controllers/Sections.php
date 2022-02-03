@@ -4,11 +4,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /**
  * @package : Ramom school management system
  * @version : 4.0
- * @developed by : RamomCoder
- * @support : ramomcoder@yahoo.com
- * @author url : http://codecanyon.net/user/RamomCoder
+ * @developed by : Faissal EL FID
+ * @support : faissal.elfid@gmail.com
+ * @copyright : Reserved for an IRISI Student
  * @filename : Sections.php
- * @copyright : Reserved RamomCoder Team
+
  */
 
 class Sections extends Admin_Controller
@@ -63,9 +63,7 @@ class Sections extends Admin_Controller
                     set_alert('success', translate('information_has_been_saved_successfully'));
                 } else {
                     if (get_permission('section', 'is_edit')) {
-                        if (!is_superadmin_loggedin()) {
-                            $this->db->where('branch_id', 1);
-                        }
+                        $this->db->where('branch_id', 1);
                         $this->db->where('id', $sectionID);
                         $this->db->update('section', $arraySection);
                     }
@@ -102,9 +100,7 @@ class Sections extends Admin_Controller
     public function delete($id = '')
     {
         if (get_permission('section', 'is_delete')) {
-            if (!is_superadmin_loggedin()) {
-                $this->db->where('branch_id', get_loggedin_branch_id());
-            }
+            $this->db->where('branch_id', 1);
             $this->db->where('id', $id);
             $this->db->delete('section');
         }

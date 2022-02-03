@@ -1,6 +1,4 @@
-<?php if (is_superadmin_loggedin() ): ?>
-	<?php $this->load->view('frontend/branch_select'); ?>
-<?php endif; if (!empty($branch_id)): ?>
+
 <div class="row">
 	<div class="col-md-3 mb-md">
 		<?php include 'sidebar.php'; ?>
@@ -385,4 +383,3 @@
 		</section>
 	</div>
 </div>
-<?php endif; ?>

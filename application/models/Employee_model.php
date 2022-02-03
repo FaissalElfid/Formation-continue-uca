@@ -18,23 +18,11 @@ class Employee_model extends MY_Model
             'branch_id' => $this->application_model->get_branch_id(),
             'name' => $data['name'],
             'sex' => $data['sex'],
-            'religion' => $data['religion'],
-            'blood_group' => $data['blood_group'],
-            'birthday' => $data["birthday"],
             'mobileno' => $data['mobile_no'],
             'present_address' => $data['present_address'],
-            'permanent_address' => $data['permanent_address'],
             'photo' => $this->uploadImage('staff'),
-            'designation' => $data['designation_id'],
             'department' => $data['department_id'],
-            'joining_date' => date("Y-m-d", strtotime($data['joining_date'])),
-            'qualification' => $data['qualification'],
-            'experience_details' => $data['experience_details'],
-            'total_experience' => $data['total_experience'],
             'email' => $data['email'],
-            'facebook_url' => $data['facebook'],
-            'linkedin_url' => $data['linkedin'],
-            'twitter_url' => $data['twitter'],
         );
 
         $inser_data2 = array(
@@ -42,7 +30,7 @@ class Employee_model extends MY_Model
             'role' => $data["user_role"],
         );
 
-        if (!isset($data['staff_id']) && empty($data['staff_id'])) {
+        if (empty($data['staff_id'])) {
             // RANDOM STAFF ID GENERATE
             $inser_data1['staff_id'] = substr(app_generate_hash(), 3, 7);
             // SAVE EMPLOYEE INFORMATION IN THE DATABASE
@@ -54,12 +42,6 @@ class Employee_model extends MY_Model
             $inser_data2['user_id'] = $employeeID;
             $inser_data2['password'] = $this->app_lib->pass_hashed($data["password"]);
             $this->db->insert('login_credential', $inser_data2);
-
-            // SAVE USER BANK INFORMATION IN THE DATABASE
-            if (!isset($data['chkskipped'])) {
-                $data['staff_id'] = $employeeID;
-                $this->bankSave($data);
-            }
             return $employeeID;
         } else {
             $inser_data1['staff_id'] = $data['staff_id_no'];
@@ -80,12 +62,11 @@ class Employee_model extends MY_Model
     // GET SINGLE EMPLOYEE DETAILS
     public function getSingleStaff($id = '')
     {
-        $this->db->select('staff.*,staff_designation.name as designation_name,staff_department.name as department_name,login_credential.role as role_id,login_credential.active,login_credential.username, roles.name as role');
+        $this->db->select('staff.*,section.name as section_name, section.capacity as section_place,login_credential.role as role_id,login_credential.active,login_credential.username, roles.name as role');
         $this->db->from('staff');
         $this->db->join('login_credential', 'login_credential.user_id = staff.id and login_credential.role != "6" and login_credential.role != "7"', 'inner');
         $this->db->join('roles', 'roles.id = login_credential.role', 'left');
-        $this->db->join('staff_designation', 'staff_designation.id = staff.designation', 'left');
-        $this->db->join('staff_department', 'staff_department.id = staff.department', 'left');
+        $this->db->join('section', 'section.id = staff.department', 'left');
         $this->db->where('staff.id', $id);
         if (!is_superadmin_loggedin()) {
             $this->db->where('staff.branch_id', get_loggedin_branch_id());
@@ -100,12 +81,11 @@ class Employee_model extends MY_Model
     // get staff all list
     public function getStaffList($branchID = '', $role_id, $active = 1)
     {
-        $this->db->select('staff.*,staff_designation.name as designation_name,staff_department.name as department_name,login_credential.role as role_id, roles.name as role');
+        $this->db->select('staff.*,section.name as section_name, section.capacity as section_place,login_credential.role as role_id, roles.name as role');
         $this->db->from('staff');
         $this->db->join('login_credential', 'login_credential.user_id = staff.id and login_credential.role != "6" and login_credential.role != "7"', 'inner');
         $this->db->join('roles', 'roles.id = login_credential.role', 'left');
-        $this->db->join('staff_designation', 'staff_designation.id = staff.designation', 'left');
-        $this->db->join('staff_department', 'staff_department.id = staff.department', 'left');
+        $this->db->join('section', 'section.id = staff.department', 'left');
         if ($branchID != "") {
             $this->db->where('staff.branch_id', $branchID);
         }
@@ -143,24 +123,17 @@ class Employee_model extends MY_Model
             $this->db->update('staff_bank_account', $inser_data);
         } else {
             $this->db->insert('staff_bank_account', $inser_data);
-        }  
+        }
     }
 
-    public function csvImport($row, $branchID, $userRole, $designationID, $departmentID)
+    public function csvImport($row, $branchID, $userRole, $departmentID)
     {
         $inser_data1 = array(
             'name' => $row['Name'],
             'sex' => $row['Gender'],
-            'religion' => $row['Religion'],
-            'blood_group' => $row['BloodGroup'],
-            'birthday' => date("Y-m-d", strtotime($row['DateOfBirth'])),
-            'joining_date' => date("Y-m-d", strtotime($row['JoiningDate'])),
-            'qualification' => $row['Qualification'],
             'mobileno' => $row['MobileNo'],
             'present_address' => $row['PresentAddress'],
-            'permanent_address' => $row['PermanentAddress'],
             'email' => $row['Email'],
-            'designation' => $designationID,
             'department' => $departmentID,
             'branch_id' => $branchID,
             'photo' => 'defualt.png',

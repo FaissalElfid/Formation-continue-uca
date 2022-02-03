@@ -1,6 +1,5 @@
 <?php
 $widget = (is_superadmin_loggedin() ? 3 : 4);
-$getParent = $this->student_model->get('parent', array('id' => $student['parent_id']), true);
 $branchID = $student['branch_id'];
 $previous_details = json_decode($student['previous_details'], true);
 ?>
@@ -135,12 +134,12 @@ $previous_details = json_decode($student['previous_details'], true);
 								</div>
 							</div>
 						</div>
-						
+
 						<!-- student details -->
 						<div class="headers-line mt-md">
 							<i class="fas fa-user-check"></i> <?=translate('student_details')?>
 						</div>
-						
+
 						<div class="row">
 							<div class="col-md-4 mb-sm">
 								<div class="form-group">
@@ -180,43 +179,12 @@ $previous_details = json_decode($student['previous_details'], true);
 						<div class="row">
 							<div class="col-md-6 mb-sm">
 								<div class="form-group">
-									<label class="control-label"><?=translate('blood_group')?></label>
-									<?php
-										$bloodArray = $this->app_lib->getBloodgroup();
-										echo form_dropdown("blood_group", $bloodArray, set_value("blood_group", $student['blood_group']), "class='form-control populate' data-plugin-selectTwo 
-										data-width='100%' data-minimum-results-for-search='Infinity' ");
-									?>
-								</div>
-							</div>
-							<div class="col-md-6 mb-sm">
-								<div class="form-group">
 									<label class="control-label"><?=translate('birthday')?></label>
 									<div class="input-group">
 										<span class="input-group-addon"><i class="fas fa-birthday-cake"></i></span>
 										<input type="text" class="form-control" name="birthday" value="<?=set_value('birthday', $student['birthday'])?>" data-plugin-datepicker
 										data-plugin-options='{ "startView": 2 }' />
 									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="row">
-							<div class="col-md-4 mb-sm">
-								<div class="form-group">
-									<label class="control-label"><?=translate('mother_tongue')?></label>
-									<input type="text" class="form-control" name="mother_tongue" value="<?=set_value('mother_tongue', $student['mother_tongue'])?>" />
-								</div>
-							</div>
-							<div class="col-md-4 mb-sm">
-								<div class="form-group">
-									<label class="control-label"><?=translate('religion')?></label>
-									<input type="text" class="form-control" name="religion" value="<?=set_value('religion', $student['religion'])?>" />
-								</div>
-							</div>
-							<div class="col-md-4 mb-sm">
-								<div class="form-group">
-									<label class="control-label"><?=translate('caste')?></label>
-									<input type="text" class="form-control" name="caste" value="<?=set_value('caste', $student['caste'])?>" />
 								</div>
 							</div>
 						</div>
@@ -263,14 +231,8 @@ $previous_details = json_decode($student['previous_details'], true);
 									<textarea name="current_address" rows="2" class="form-control" aria-required="true"><?=set_value('current_address', $student['current_address'])?></textarea>
 								</div>
 							</div>
-							<div class="col-md-6 mb-sm">
-								<div class="form-group">
-									<label class="control-label"><?=translate('permanent_address')?></label>
-									<textarea name="permanent_address" rows="2" class="form-control" aria-required="true"><?=set_value('permanent_address', $student['permanent_address'])?></textarea>
-								</div>
-							</div>
 						</div>
-						
+
 						<div class="row mb-md">
 							<div class="col-md-12">
 								<div class="form-group">
@@ -299,114 +261,13 @@ $previous_details = json_decode($student['previous_details'], true);
 								</div>
 							</div>
 						</div>
-
-						<!--guardian details-->
-						<div class="headers-line">
-							<i class="fas fa-user-tie"></i> <?=translate('guardian_details')?>
-						</div>
-						<div class="row mb-md">
-							<div class="col-md-12 mb-md">
-								<label class="control-label"><?=translate('guardian')?> <span class="required">*</span></label>
-								<div class="form-group">
-									<?php
-										$arrayParent = $this->app_lib->getSelectByBranch('parent', $branchID);
-										echo form_dropdown("parent_id", $arrayParent, set_value('parent_id', $student['parent_id']), "class='form-control' id='parent_id' disabled
-										data-plugin-selectTwo data-width='100%' data-minimum-results-for-search='Infinity' ");
-									?>
-									<span class="error"><?=form_error('parent_id')?></span>
-								</div>
-							</div>
-						</div>
-
-						<!-- transport details -->
-						<div class="headers-line">
-							<i class="fas fa-bus-alt"></i> <?=translate('transport_details')?>
-						</div>
-
-						<div class="row mb-md">
-							<div class="col-md-6 mb-sm">
-								<div class="form-group">
-									<label class="control-label"><?=translate('transport_route')?></label>
-									<?php
-										$arrayRoute = $this->app_lib->getSelectByBranch('transport_route', $branchID);
-										echo form_dropdown("route_id", $arrayRoute, set_value('route_id', $student['route_id']), "class='form-control' disabled
-										data-plugin-selectTwo data-width='100%' data-minimum-results-for-search='Infinity' ");
-									?>
-								</div>
-							</div>
-							<div class="col-md-6 mb-sm">
-								<div class="form-group">
-									<label class="control-label"><?=translate('vehicle_no')?></label>
-									<?php
-										$arrayVehicle = $this->app_lib->getVehicleByRoute(set_value('route_id', $student['route_id']));
-										echo form_dropdown("vehicle_id", $arrayVehicle, set_value('vehicle_id', $student['vehicle_id']), "class='form-control' disabled
-										data-plugin-selectTwo data-width='100%' data-minimum-results-for-search='Infinity' ");
-									?>
-								</div>
-							</div>
-						</div>
-
-						<!-- hostel details -->
-						<div class="headers-line">
-							<i class="fas fa-hotel"></i> <?=translate('hostel_details')?>
-						</div>
-
-						<div class="row mb-md">
-							<div class="col-md-6 mb-sm">
-								<div class="form-group">
-									<label class="control-label"><?=translate('hostel_name')?></label>
-									<?php
-										$arrayHostel = $this->app_lib->getSelectByBranch('hostel', $branchID);
-										echo form_dropdown("hostel_id", $arrayHostel, set_value('hostel_id', $student['hostel_id']), "class='form-control' disabled
-										data-plugin-selectTwo data-width='100%' data-minimum-results-for-search='Infinity' ");
-									?>
-								</div>
-							</div>
-							<div class="col-md-6 mb-sm">
-								<div class="form-group">
-									<label class="control-label"><?=translate('room_name')?></label>
-									<?php
-										$arrayRoom = $this->app_lib->getRoomByHostel(set_value('hostel_id', $student['hostel_id']));
-										echo form_dropdown("room_id", $arrayRoom, set_value('room_id', $student['room_id']), "class='form-control' disabled
-										data-plugin-selectTwo data-width='100%' data-minimum-results-for-search='Infinity' ");
-									?>
-								</div>
-							</div>
-						</div>
-
-						<!-- previous school details -->
-						<div class="headers-line">
-							<i class="fas fa-bezier-curve"></i> <?=translate('previous_school_details')?>
-						</div>
-						<div class="row">
-							<div class="col-md-6 mb-sm">
-								<div class="form-group">
-									<label class="control-label"><?=translate('school_name')?></label>
-									<input type="text" class="form-control" name="school_name" disabled value="<?=$previous_details['school_name']?>" />
-								</div>
-							</div>
-							<div class="col-md-6 mb-sm">
-								<div class="form-group">
-									<label class="control-label"><?=translate('qualification')?></label>
-									<input type="text" class="form-control" name="qualification" disabled value="<?=$previous_details['qualification']?>" />
-								</div>
-							</div>
-						</div>
-						<div class="row mb-lg">
-							<div class="col-md-12">
-								<div class="form-group">
-									<label class="control-label"><?=translate('remarks')?></label>
-									<textarea name="previous_remarks" rows="2" disabled class="form-control"><?=$previous_details['remarks']?></textarea>
-								</div>
-							</div>
-						</div>
 					</fieldset>
 				</div>
 				<div class="panel-footer">
 					<div class="row">
 						<div class="col-md-offset-9 col-md-3">
 							<button class="btn btn-default btn-block" type="submit"><i class="fas fa-plus-circle"></i> <?php echo translate('update'); ?></button>
-						</div>	
+						</div>
 					</div>
 				</div>
 			<?php echo form_close(); ?>

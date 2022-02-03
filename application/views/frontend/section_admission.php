@@ -1,6 +1,5 @@
-<?php if (is_superadmin_loggedin() ): ?>
-	<?php $this->load->view('frontend/branch_select'); ?>
-<?php endif; if (!empty($branch_id)): ?>
+
+<?php $branch_id = 1; ?>
 <style type="text/css">
 table .form-group {
     margin-right: 0 !important;
@@ -24,7 +23,7 @@ table .form-group {
 				</ul>
 				<div class="tab-content">
 					<div class="tab-pane active" id="admission">
-						<?php echo form_open('frontend/section/saveAdmission' . $branchID, array('class' => 'form-horizontal frm-submit')); ?>
+						<?php echo form_open('frontend/section/saveAdmission' . 1, array('class' => 'form-horizontal frm-submit')); ?>
 							<div class="form-group">
 								<label class="col-md-2 control-label"><?php echo translate('title'); ?> <span class="required">*</span></label>
 								<div class="col-md-8">
@@ -50,68 +49,6 @@ table .form-group {
 								<label class="col-md-2 control-label"><?php echo translate('terms_conditions') . " " . translate('description'); ?></label>
 								<div class="col-md-8">
 									<textarea name="terms_conditions_description" class="summernote"><?php echo set_value('terms_conditions_description', $admission['terms_conditions_description']); ?></textarea>
-								</div>
-							</div>
-
-							<div class="headers-line mt-md"> <i class="fas fa-th-large"></i> <?php echo translate('online_addmission') . " " . translate('fee'); ?></div>
-							<div class="clearfix">
-								<div class="col-md-offset-2 col-md-8">
-									<div class="table-responsive">
-										<table class="table table-bordered table-condensed mt-md">
-											<thead>
-												<th><?=translate('status')?> <span class="required">*</span></th>
-												<th><?=translate('class')?> <span class="required">*</span></th>
-												<th><?=translate('amount')?> <span class="required">*</span></th>
-											</thead>
-											<tbody id="timetable_entry_append">
-											<?php
-												$classArray = $this->frontend_model->get('class', array('branch_id' => $branch_id));
-												foreach ($classArray as $key => $value) {
-													$id = $value['id'];
-													$classID = "";
-													$feeStatus = "0";
-													$amount = "";
-													if (!empty($admission['fee_elements'])) {
-														$elements = json_decode($admission['fee_elements'], true);
-														if (!empty($elements[$id]) && is_array($elements[$id])) {
-															$classID = $id;
-															$feeStatus = $elements[$id]['fee_status'];
-															$amount = $elements[$id]['amount'];
-														}
-													}
-													?>
-												 	<tr>
-														<td width="40%">
-															<div class="form-group">
-																<?php
-																	$arrayClass = array(
-																		'0' => translate('free'),
-																		'1' => translate('pay')
-																	);
-																	echo form_dropdown("addmissionfee[$key][status]", $arrayClass, set_value('status', $feeStatus), "class='form-control'
-																	data-plugin-selectTwo data-width='100%' data-minimum-results-for-search='Infinity' ");
-																?>
-																<span class="error"></span>
-															</div>
-														</td>
-														<td width="30%">
-															<div class="form-group">
-																<input type="text" class="form-control" readonly="" name="class" value="<?=$value['name']?>" />
-																<input type="hidden" name="addmissionfee[<?=$key?>][class_id]" value="<?=$value['id']?>">
-																<span class="error"></span>
-															</div>
-														</td>
-														<td width="40%">
-														<div class="form-group">
-															<input type="text" class="form-control" name="addmissionfee[<?=$key?>][amount]" value="<?=$amount?>" />
-															<span class="error"><?php echo form_error('amount'); ?></span>
-														</div>
-														</td>
-													</tr>
-												<?php } ?>
-											</tbody>
-										</table>
-									</div>
 								</div>
 							</div>
 
@@ -170,4 +107,3 @@ table .form-group {
 		</section>
 	</div>
 </div>
-<?php endif; ?>

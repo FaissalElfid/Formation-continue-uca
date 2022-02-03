@@ -1,6 +1,6 @@
 <?php
 $div = 0;
-if (get_permission('student_count_widget', 'is_view')) {
+if (get_permission('teacher_count_widget', 'is_view')) {
     $div++;
 }
 
@@ -26,14 +26,14 @@ if ($div2 == 0) {
             <div class="col-md-12 col-lg-12 col-sm-12">
                 <div class="panel">
                     <div class="row widget-row-in">
-                        <?php if (get_permission('student_count_widget', 'is_view')) { ?>
+                        <?php if (get_permission('teacher_count_widget', 'is_view')) { ?>
                             <div class="col-lg-<?php echo $widget1; ?> col-sm-6">
                                 <div class="panel-body">
                                     <div class="widget-col-in row">
                                         <div class="col-md-6 col-sm-6 col-xs-6"> <i class="fas fa-user-graduate"></i>
-                                            <h5 class="text-muted"><?php echo translate('students'); ?></h5> </div>
+                                            <h5 class="text-muted"><?php echo translate('teacher'); ?></h5> </div>
                                         <div class="col-md-6 col-sm-6 col-xs-6">
-                                            <h3 class="counter text-right mt-md text-primary"><?=$get_total_student?></h3>
+                                            <h3 class="counter text-right mt-md text-primary"><?=$get_staff_count?></h3>
                                         </div>
                                         <div class="col-md-12 col-sm-12 col-xs-12">
                                             <div class="box-top-line line-color-primary">

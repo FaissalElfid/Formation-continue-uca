@@ -126,45 +126,12 @@ class App_lib
 
     public function getClass($branch_id = '')
     {
-        if (empty($branch_id)) {
-            $array = array('' => translate('select_branch_first'));
-        } else {
-            $getClassTeacher = $this->getClassTeacher();
-            if (is_array($getClassTeacher)) {
-                $this->CI->db->select('class.id,class.name');
-                $this->CI->db->from('timetable_class');
-                $this->CI->db->join('class', 'class.id = timetable_class.class_id', 'left');
-                $this->CI->db->where('timetable_class.teacher_id', get_loggedin_user_id());
-                $this->CI->db->where('timetable_class.session_id', get_session_id());
-                $this->CI->db->group_by('timetable_class.class_id');
-                $result = $this->CI->db->get()->result_array();
-                if (count($getClassTeacher) > 0) {
-                    $result = array_merge($result, $getClassTeacher);
-                }
-            } else {
-                $this->CI->db->where('branch_id', $branch_id);
-                $result = $this->CI->db->get('class')->result_array();
-            }
+            $this->CI->db->where('branch_id', $branch_id);
+            $result = $this->CI->db->get('class')->result_array();
             $array = array('' => translate('select'));
             foreach ($result as $row) {
                 $array[$row['id']] = $row['name'];
             }
-        }
-        return $array;
-    }
-
-    public function getStudentCategory($branch_id = '')
-    {
-        if (empty($branch_id)) {
-            $array = array('' => translate('select_branch_first'));
-        } else {
-            $this->CI->db->where('branch_id', $branch_id);
-            $result = $this->CI->db->get('student_category')->result();
-            $array = array('' => translate('select'));
-            foreach ($result as $row) {
-                $array[$row->id] = $row->name;
-            }
-        }
         return $array;
     }
 
@@ -196,66 +163,6 @@ class App_lib
             }
             foreach ($result as $row) {
                 $array[$row['section_id']] = get_type_name_by_id('section', $row['section_id']);
-            }
-        }
-        return $array;
-    }
-
-    public function getDepartment($branch_id = '')
-    {
-        if (empty($branch_id)) {
-            $array = array('' => translate('select_branch_first'));
-        } else {
-            $this->CI->db->where('branch_id', $branch_id);
-            $result = $this->CI->db->get('staff_department')->result();
-            $array = array('' => translate('select'));
-            foreach ($result as $row) {
-                $array[$row->id] = $row->name;
-            }
-        }
-        return $array;
-    }
-
-    public function getDesignation($branch_id = '')
-    {
-        if ($branch_id == '') {
-            $array = array('' => translate('select_branch_first'));
-        } else {
-            $this->CI->db->where('branch_id', $branch_id);
-            $result = $this->CI->db->get('staff_designation')->result();
-            $array = array('' => translate('select'));
-            foreach ($result as $row) {
-                $array[$row->id] = $row->name;
-            }
-        }
-        return $array;
-    }
-
-    public function getVehicleByRoute($route_id = '')
-    {
-        if ($route_id == '') {
-            $array = array('' => translate('first_select_the_route'));
-        } else {
-            $this->CI->db->where('route_id', $route_id);
-            $result = $this->CI->db->get('transport_assign')->result();
-            $array = array('' => translate('select'));
-            foreach ($result as $row) {
-                $array[$row->vehicle_id] = get_type_name_by_id('transport_vehicle', $row->vehicle_id, 'vehicle_no');
-            }
-        }
-        return $array;
-    }
-
-    public function getRoomByHostel($hostel_id = '')
-    {
-        if ($hostel_id == '') {
-            $array = array('' => translate('first_select_the_hostel'));
-        } else {
-            $this->CI->db->where('hostel_id', $hostel_id);
-            $result = $this->CI->db->get('hostel_room')->result();
-            $array = array('' => translate('select'));
-            foreach ($result as $row) {
-                $array[$row->id] = $row->name . ' ('. get_type_name_by_id('hostel_category', $row->category_id).')';
             }
         }
         return $array;

@@ -4,11 +4,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /**
  * @package : Ramom school management system
  * @version : 4.0
- * @developed by : RamomCoder
- * @support : ramomcoder@yahoo.com
- * @author url : http://codecanyon.net/user/RamomCoder
+ * @developed by : Faissal EL FID
+ * @support : faissal.elfid@gmail.com
+ * @copyright : Reserved for an IRISI Student
  * @filename : Home.php
- * @copyright : Reserved RamomCoder Team
+
  */
 
 class Home extends Frontend_Controller
@@ -154,7 +154,12 @@ class Home extends Frontend_Controller
             echo json_encode($array);
             exit();
         }
+        $this->db->select('schoolyear.school_year as school_year');
+        $this->db->from('schoolyear');
+        $this->db->where('schoolyear.id', "1");
+        $query = $this->db->get();
 
+        $this->data['session'] = $query->row_array();
         $this->data['branchID'] = $branchID;
         $this->data['page_data'] = $this->home_model->get('front_cms_admission', array('branch_id' => $branchID), true);
         $this->data['main_contents'] = $this->load->view('home/admission', $this->data, true);

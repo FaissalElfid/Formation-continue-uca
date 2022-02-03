@@ -2,11 +2,11 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
- * @package : Ramom School Management System
+ * @package : Ramom school management system
  * @version : 4.0
- * @developed by : RamomCoder
- * @support : ramomcoder@yahoo.com
- * @author url : http://codecanyon.net/user/RamomCoder
+ * @developed by : Faissal EL FID
+ * @support : faissal.elfid@gmail.com
+ * @copyright : Reserved for an IRISI Student
  * @filename : Ajax.php
  */
 
@@ -81,41 +81,6 @@ class Ajax extends MY_Controller
             }
         } else {
             $html .= '<option value="">' . translate('select_branch_first') . '</option>';
-        }
-        echo $html;
-    }
-
-    public function getStudentByClass()
-    {
-        $html = "";
-        $class_id = $this->input->post('class_id');
-        $section_id = $this->input->post('section_id');
-        $branch_id = $this->application_model->get_branch_id();
-        $student_id = (isset($_POST['student_id']) ? $_POST['student_id'] : 0);
-        if (!empty($class_id)) {
-            $this->db->select('e.student_id,e.roll,CONCAT(s.first_name, " ", s.last_name) as fullname');
-            $this->db->from('enroll as e');
-            $this->db->join('student as s', 's.id = e.student_id', 'inner');
-            $this->db->join('login_credential as l', 'l.user_id = e.student_id and l.role = 7', 'left');
-            $this->db->where('l.active', 1);
-            $this->db->where('e.session_id', get_session_id());
-            if (!empty($section_id)) {
-                $this->db->where('e.section_id', $section_id);
-            }
-            $this->db->where('e.class_id', $class_id);
-            $this->db->where('e.branch_id', $branch_id);
-            $result = $this->db->get()->result_array();
-            if (count($result)) {
-                $html .= "<option value=''>" . translate('select') . "</option>";
-                foreach ($result as $row) {
-                    $sel = ($row['student_id']  == $student_id ? 'selected' : '');
-                    $html .= '<option value="' . $row['student_id'] . '"' . $sel . '>' . $row['fullname'] . ' ( Roll : ' . $row['roll'] . ')</option>';
-                }
-            } else {
-                $html .= '<option value="">' . translate('no_information_available') . '</option>';
-            }
-        } else {
-            $html .= '<option value="">' . translate('select_class_first') . '</option>';
         }
         echo $html;
     }
@@ -199,20 +164,14 @@ class Ajax extends MY_Controller
     {
         $html = "";
         $role_id = $this->input->post('role');
-        $designation = $this->input->post('designation');
         $department = $this->input->post('department');
         $selected_id = (isset($_POST['staff_id']) ? $_POST['staff_id'] : 0);
-        $this->db->select('staff.*,staff_designation.name as des_name,staff_department.name as dep_name,login_credential.role as role_id, roles.name as role');
+        $this->db->select('staff.*,login_credential.role as role_id, roles.name as role');
         $this->db->from('staff');
         $this->db->join('login_credential', 'login_credential.user_id = staff.id', 'inner');
         $this->db->join('roles', 'roles.id = login_credential.role', 'left');
-        $this->db->join('staff_designation', 'staff_designation.id = staff.designation', 'left');
-        $this->db->join('staff_department', 'staff_department.id = staff.department', 'left');
         $this->db->where('login_credential.role', $role_id);
         $this->db->where('login_credential.active', 1);
-        if ($designation != '') {
-            $this->db->where('staff.designation', $designation);
-        }
 
         if ($department != '') {
             $this->db->where('staff.department', $department);
@@ -257,28 +216,6 @@ class Ajax extends MY_Controller
             $html .= '<option value="">' . translate('select_class_first') . '</option>';
         }
         echo $html;
-    }
-
-    public function department_details()
-    {
-        if (get_permission('department', 'is_edit')) {
-            $id = $this->input->post('id');
-            $this->db->where('id', $id);
-            $query = $this->db->get('staff_department');
-            $result = $query->row_array();
-            echo json_encode($result);
-        }
-    }
-
-    public function designation_details()
-    {
-        if (get_permission('designation', 'is_edit')) {
-            $id = $this->input->post('id');
-            $this->db->where('id', $id);
-            $query = $this->db->get('staff_designation');
-            $result = $query->row_array();
-            echo json_encode($result);
-        }
     }
 
     public function getLoginAuto()

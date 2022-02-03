@@ -1,6 +1,6 @@
 (function($) {
 	'use strict';
-	
+
 	$(document).ready(function () {
 		$('#branch_id').on('change', function() {
 			var branchID = $(this).val();
@@ -24,32 +24,6 @@
 						var $this = $(this);
 						$this.themePluginDatePicker({});
 					});
-				}
-			});
-		});
-		
-		$('#branchID_mod').on('change', function() {
-			var branchID = $(this).val();
-			$.ajax({
-				url: base_url + 'ajax/getDataByBranch',
-				type: 'POST',
-				data: {
-					table: "staff_designation",
-					branch_id: branchID
-				},
-				success: function (response) {
-					$('#designationID_mod').html(response);
-				}
-			});
-			$.ajax({
-				url: base_url + 'ajax/getDataByBranch',
-				type: 'POST',
-				data: {
-					table: "staff_department",
-					branch_id: branchID
-				},
-				success: function (response) {
-					$('#departmentID_mod').html(response);
 				}
 			});
 		});

@@ -38,7 +38,7 @@ class Menu extends Admin_Controller
         if (!get_permission('frontend_menu', 'is_view')) {
             access_denied();
         }
-        $branchID = $this->frontend_model->getBranchID();
+        $branchID = 1;
         if ($this->input->post()) {
 
             if (!get_permission('frontend_menu', 'is_add')) {
@@ -57,8 +57,8 @@ class Menu extends Admin_Controller
             echo json_encode($array);
             exit();
         }
-        
-        $this->data['branch_id'] = $branchID;
+
+        $this->data['branch_id'] = 1;
         $this->data['headerelements'] = array(
             'js' => array(
                 'js/frontend.js',
@@ -155,7 +155,7 @@ class Menu extends Admin_Controller
                 $message = translate('unpublished_on_website');
             }
             $this->db->where('id', $id);
-            $this->db->update('front_cms_menu', $array_data); 
+            $this->db->update('front_cms_menu', $array_data);
         }
 
 

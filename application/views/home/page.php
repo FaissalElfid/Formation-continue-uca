@@ -19,7 +19,6 @@
 <!-- Main Container Starts -->
 <div class="container px-md-0 main-container">
     <h2 style="margin-bottom: 25px">Listes des formations continues</h2>
-    <span><?php echo "$file_name"; ?></span>
     <div class="tab-content">
         <?php
         if (count($classlist)) {

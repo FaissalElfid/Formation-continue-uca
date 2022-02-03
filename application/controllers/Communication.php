@@ -4,11 +4,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /**
  * @package : Ramom school management system
  * @version : 4.0
- * @developed by : RamomCoder
- * @support : ramomcoder@yahoo.com
- * @author url : http://codecanyon.net/user/RamomCoder
+ * @developed by : Faissal EL FID
+ * @support : faissal.elfid@gmail.com
+ * @copyright : Reserved for an IRISI Student
  * @filename : Communication.php
- * @copyright : Reserved RamomCoder Team
+
  */
 
 class Communication extends Admin_Controller
@@ -267,38 +267,6 @@ class Communication extends Admin_Controller
             }
         } else {
             $html .= '<option value="">' . translate('select_branch_first') . '</option>';
-        }
-        echo $html;
-    }
-
-    public function getStudentByClass()
-    {
-        $html = "";
-        $class_id = $this->input->post('class_id');
-        $branch_id = $this->application_model->get_branch_id();
-        if (!empty($class_id)) {
-            $this->db->select('e.student_id,e.roll,CONCAT(s.first_name, " ", s.last_name) as fullname');
-            $this->db->from('enroll as e');
-            $this->db->join('student as s', 's.id = e.student_id', 'inner');
-            $this->db->join('login_credential as l', 'l.user_id = e.student_id and l.role = 7', 'left');
-            $this->db->where('l.active', 1);
-            $this->db->where('e.session_id', get_session_id());
-            $this->db->where('e.class_id', $class_id);
-            $this->db->where('e.branch_id', $branch_id);
-            $result = $this->db->get()->result_array();
-            if (count($result)) {
-                $html .= "<option value=''>" . translate('select') . "</option>";
-                foreach ($result as $row) {
-                    if ($row['student_id'] == get_loggedin_user_id()) {
-                        continue;
-                    }
-                    $html .= '<option value="' . $row['student_id'] . '">' . $row['fullname'] . ' ( Roll : ' . $row['roll'] . ')</option>';
-                }
-            } else {
-                $html .= '<option value="">' . translate('no_information_available') . '</option>';
-            }
-        } else {
-            $html .= '<option value="">' . translate('select_class_first') . '</option>';
         }
         echo $html;
     }

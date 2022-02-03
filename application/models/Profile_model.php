@@ -45,36 +45,6 @@ class Profile_model extends MY_Model
         $this->db->update('login_credential', array('username' => $data['username']));
     }
 
-    public function studentUpdate($data)
-    {
-        $update_data1 = array(
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
-            'gender' => $data['gender'],
-            'birthday' => date("Y-m-d", strtotime($data['birthday'])),
-            'religion' => $data['religion'],
-            'caste' => $data['caste'],
-            'blood_group' => $data['blood_group'],
-            'mother_tongue' => $data['mother_tongue'],
-            'current_address' => $data['current_address'],
-            'permanent_address' => $data['permanent_address'],
-            'city' => $data['city'],
-            'state' => $data['state'],
-            'mobileno' => $data['mobileno'],
-            'email' => $data['email'],
-            'photo' => $this->uploadImage('student'),
-        );
-
-        // update student all information in the database
-        $this->db->where('id', get_loggedin_user_id());
-        $this->db->update('student', $update_data1);
-
-        // update login credential information in the database
-        $this->db->where('user_id', get_loggedin_user_id());
-        $this->db->where('role', 7);
-        $this->db->update('login_credential', array('username' => $data['username']));
-    }
-
     // moderator staff all information
     public function parentUpdate($data)
     {
