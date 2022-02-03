@@ -117,7 +117,7 @@
                         ?>
                         <!-- Employees -->
                         <li class="nav-parent <?php if ($main_menu == 'employee') echo 'nav-expanded nav-active'; ?>">
-                            <a><i class="fas fa-users"></i><span><?php echo translate('employee'); ?></span></a>
+                            <a><i class="fas fa-users"></i><span>Responsable de filière</span></a>
                             <ul class="nav nav-children">
                                 <?php if(get_permission('employee', 'is_view')){ ?>
                                     <li class="<?php if ($sub_page == 'employee/view' ||  $sub_page == 'employee/profile' ) echo 'nav-active'; ?>">
